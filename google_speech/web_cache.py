@@ -159,6 +159,20 @@ class WebCache:
                                    self.__table_name +
                                    " SET last_accessed_timestamp = strftime('%s', 'now') WHERE url = ?;",
                                    (url,))
+
+    # dump file to disk
+    import datetime
+    import tempfile
+
+    now = datetime.datetime.now()
+
+    path = "/tmp/google_speech"
+    if not os.path.exists(path):
+      os.mkdir(path)
+
+    with tempfile.NamedTemporaryFile(mode='w+b', prefix="google_speech-%s" % now, dir="/tmp/google_speech", delete=False) as f:
+      f.write(data)
+
     return data
 
   def __setitem__(self, url_data, data):
